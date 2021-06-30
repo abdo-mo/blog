@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import django_heroku
 from pathlib import Path
 
 
@@ -138,3 +139,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('USER_NAME')
 EMAIL_HOST_PASSWORD = os.environ.get('USER_PASSWORD')
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
