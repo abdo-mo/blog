@@ -17,4 +17,5 @@ class Profile(models.Model):
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
-User.profile = property(lambda u: Profile.objects.get_or_create(user = u)[0])
+
+# User.profile = property(lambda u: Profile.objects.get_or_create(user = u)[0])

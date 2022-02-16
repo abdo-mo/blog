@@ -9,12 +9,8 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post
-
-def home(request):
-    content = {
-        'posts':Post.objects.all()
-    }    
-    return render(request, 'blog/home.html', content)
+from .forms import EmailPostForm
+from django.core.mail import send_mail 
 
 class PostListView(ListView):
     model = Post
@@ -67,6 +63,28 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+def post_share(request, post_id):
+    # Retrieve post by id
+    post = get_object_or_404(Post, id=post_id)
+    send = False
+    if request.method == 'POST':
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            cleanData = form.cleaned_data
+            # ... send email
+            post_url = request.build_absolute_uri(post.get_absolute_url())
+            subject = f"{cleanData['name']} recommends you read " \
+            f"{post.title}"
+            message = f"Read {post.title} at {post_url}\n\n" \
+            f"{cleanData['name']}\'s comments: {cleanData['comments']}"
+            send_mail(subject, message, 'abdo.mo.py3@gmail.com',
+            [cleanData['to']])
+            send = True
+    else:
+        form = EmailPostForm()
+    return render(request, 'blog/share.html', {'post': post,
+    'form': form,'send': send})
 
 
 def about(request):
