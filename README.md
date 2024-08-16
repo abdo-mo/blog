@@ -15,5 +15,5 @@ git clone git@github.com:abdo-mo/blog.git
 ```
 install django and requirement packages
 ```
-pip install requierments.txt
+pip install -r requierments.txt
 ```
