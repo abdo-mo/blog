@@ -6,7 +6,8 @@
             {% csrf_token %}
             <fieldset class = 'form-group'>
                 <legend class = "border-bottom mb-4">Log In</legend>
-                {{form|crispy}}
+                {{form}}
+                <!-- {{form}} this form using crispy filter -->
             </fieldset>
             <div class = "form-group">
                 <button class = "btn btn-outline-info"type = "submit">Login</button>
